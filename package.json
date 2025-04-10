@@ -1,0 +1,31 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blazejzj/file-uploader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blazejzj/file-uploader/issues"
+  },
+  "homepage": "https://github.com/blazejzj/file-uploader#readme",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.14.1",
+    "prisma": "^6.6.0"
+  }
+}
