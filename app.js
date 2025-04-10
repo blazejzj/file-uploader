@@ -9,8 +9,7 @@ const app = express();
 
 // routers
 const indexRouter = require("./routes/indexRouter");
-const registerRouter = require("./routes/registerRouter");
-const loginRouter = require("./routes/loginRouter");
+const authRouter = require("./routes/authRouter");
 
 // views
 app.set("views", path.join(__dirname, "views"));
@@ -42,15 +41,14 @@ app.use((req, res, next) => {
     next();
 });
 app.use((req, res, next) => {
-    // give us global access to user provided with passport
+    // give us global access to errors
     res.locals.errors = [];
     next();
 });
 
 // routes
 app.use("/", indexRouter);
-app.use("/register", registerRouter);
-app.use("/login", loginRouter);
+app.use("/auth", authRouter);
 
 // start
 const PORT = 3000;

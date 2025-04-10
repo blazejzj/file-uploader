@@ -79,13 +79,30 @@
             .register-link:hover {
                 color: #667eea;
             }
+            .error-container {
+                background-color: #ffe0e0;
+                border: 1px solid #ff6b6b;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+            }
+            .error-message {
+                color: #d8000c;
+                font-size: 0.9rem;
+                margin: 5px 0;
+            }
         </style>
     </head>
     <body>
         <div class="hero">
             <div class="card">
                 <h1>Log in to Fayl</h1>
-                <form action="/login" method="POST">
+                <% if (errors && errors.length) { %>
+                <div class="error-container">
+                    <p class="error-message"><%= errors[0] %></p>
+                </div>
+                <% } %>
+                <form action="/auth/login" method="POST">
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input
@@ -108,7 +125,9 @@
                 </form>
                 <div class="text-center">
                     <p>Don't have an account?</p>
-                    <a href="/register" class="register-link">Register here!</a>
+                    <a href="/auth/register" class="register-link"
+                        >Register here!</a
+                    >
                 </div>
             </div>
         </div>
