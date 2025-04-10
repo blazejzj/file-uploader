@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Personal Dashboard</title>
+    </head>
+    <body>
+        <% if (user) { %>
+        <h1>Hi <%= user.name %> !</h1>
+        <p>You are now authenticated and only you can see your stuff here!</p>
+        <a href="/logout">Log out here!</a>
+        <% } else { %>
+        <p>NOT AUTHENTICATED BITCH</p>
+        <% } %>
+    </body>
+</html>

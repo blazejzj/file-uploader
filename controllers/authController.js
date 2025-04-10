@@ -3,6 +3,7 @@ const { validateUserLogin } = require("../validators/loginValidator");
 const { validateNewUser } = require("../validators/registerValidator");
 const bcrypt = require("bcryptjs");
 const db = require("../prisma/queries");
+const passport = require("passport");
 
 exports.showLoginForm = (req, res) => {
     res.render("login");
@@ -10,7 +11,7 @@ exports.showLoginForm = (req, res) => {
 
 exports.login = [
     validateUserLogin,
-    (req, res) => {
+    (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((err) => err.msg);
@@ -20,7 +21,10 @@ exports.login = [
             });
         }
 
-        res.redirect("/");
+        passport.authenticate("local", {
+            successRedirect: `/dashboard`,
+            failureRedirect: `/login`,
+        })(req, res, next);
     },
 ];
 
@@ -46,3 +50,10 @@ exports.register = [
         res.redirect("/login");
     },
 ];
+
+exports.logout = (req, res) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.redirect("/");
+    });
+};
