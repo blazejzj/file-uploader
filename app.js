@@ -31,3 +31,14 @@ app.use(
         }),
     })
 );
+app.use(passport.session());
+app.use((req, res, next) => {
+    // give us global access to user provided with passport
+    res.locals.user = req.user;
+    next();
+});
+
+// start
+app.listen(PORT, () => {
+    console.log("Server has now started.");
+});
