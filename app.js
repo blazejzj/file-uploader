@@ -6,8 +6,10 @@ const passport = require("passport");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 const app = express();
-const PORT = process.env.PORT;
 
+// routers
+const indexRouter = require("./routes/indexRouter");
+const registerRouter = require("./routes/registerRouter");
 // views
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -38,7 +40,12 @@ app.use((req, res, next) => {
     next();
 });
 
+// routes
+app.use("/", indexRouter);
+app.use("/register", registerRouter);
+
 // start
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log("Server has now started.");
 });

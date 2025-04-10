@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fayl Uploader</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                background: #f1f1f1;
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                color: #333;
+            }
+            .hero {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: #fff;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+            .hero-content {
+                max-width: 600px;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 3rem;
+                margin-bottom: 20px;
+            }
+            a.button {
+                text-decoration: none;
+                padding: 12px 25px;
+                background: #fff;
+                color: #764ba2;
+                border-radius: 30px;
+                font-weight: bold;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                transition: background 0.3s, transform 0.3s;
+                display: inline-block;
+                margin: 10px;
+            }
+            a.button:hover {
+                background: #f7f7f7;
+                transform: translateY(-3px);
+            }
+            .login-text {
+                margin-top: 20px;
+                font-size: 1.2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Fayl!</h1>
+                <a href="/register" class="button">Register to get started!</a>
+                <div class="login-text">
+                    <p>Already have an account?</p>
+                    <a href="/login" class="button">Log in!</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
