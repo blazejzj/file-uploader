@@ -37,6 +37,9 @@
             }
             .form-group {
                 margin-bottom: 15px;
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
             }
             label {
                 display: block;
@@ -105,6 +108,13 @@
                             type="password"
                             name="password"
                             id="password"
+                            required
+                        />
+                        <label for="confirmPassword">Confirm password:</label>
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            id="confirmPassword"
                             required
                         />
                     </div>
