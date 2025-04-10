@@ -82,12 +82,32 @@
             .login-link:hover {
                 color: #667eea;
             }
+            .error-container {
+                background-color: #ffe0e0;
+                border: 1px solid #ff6b6b;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+            }
+            .error-message {
+                color: #d8000c;
+                font-size: 0.9rem;
+                margin: 5px 0;
+            }
         </style>
     </head>
     <body>
         <div class="hero">
             <div class="card">
                 <h1>Register Fayl</h1>
+                <% if (errors && errors.length) { %>
+                <div class="error-container">
+                    <% errors.forEach((error) => { %>
+                    <p class="error-message"><%= error %></p>
+                    <% }) %>
+                </div>
+                <% } %>
+
                 <form action="/register" method="POST">
                     <div class="form-group">
                         <label for="name">Name:</label>

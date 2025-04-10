@@ -10,7 +10,7 @@ async function getUserById(userId) {
 }
 
 async function usernameExists(username) {
-    const user = prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
         where: {
             username,
         },
@@ -18,7 +18,18 @@ async function usernameExists(username) {
     return !!user;
 }
 
+async function addNewUser(name, username, password) {
+    await prisma.user.create({
+        data: {
+            name,
+            username,
+            password,
+        },
+    });
+}
+
 module.exports = {
     getUserById,
     usernameExists,
+    addNewUser,
 };

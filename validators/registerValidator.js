@@ -1,14 +1,16 @@
 const { body } = require("express-validator");
 const db = require("../prisma/queries");
 
-const alphaErr = "Must only contain letters";
-const nameLengthErr = "Must be between 2 and 100 letters";
-const usernamePatternErr = "Must only contain letters, digits, '-' or '_'";
-const usernameLengthErr = "Must be between 2 and 100 characters.";
-const tooShortPasswordErr = "Must be at least 8 characters long";
-const tooLongPasswordErr = "Cannot be longer than 100 characters";
-const passwordsDontMatchErr = "password dont match";
-const usernameAlreadyExists = "is already in use, please choose something else";
+const alphaErr = "Your name must only contain letters";
+const nameLengthErr = "Your name must be between 2 and 100 letters";
+const usernamePatternErr =
+    "Your username must only contain letters, digits, '-' or '_'";
+const usernameLengthErr = "Your username must be between 2 and 100 characters.";
+const tooShortPasswordErr = "Password must be at least 8 characters long";
+const tooLongPasswordErr = "Password cannot be longer than 100 characters";
+const passwordsDontMatchErr = "Passwords provided dont match";
+const usernameAlreadyExists =
+    "Username is already in use, please choose something else.";
 
 exports.validateNewUser = [
     body("name")

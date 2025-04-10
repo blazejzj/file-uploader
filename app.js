@@ -41,6 +41,11 @@ app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
 });
+app.use((req, res, next) => {
+    // give us global access to user provided with passport
+    res.locals.errors = [];
+    next();
+});
 
 // routes
 app.use("/", indexRouter);
