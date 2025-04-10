@@ -4,14 +4,59 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Personal Dashboard</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                background: #fafafa;
+                color: #333;
+                line-height: 1.6;
+            }
+            .dashboard-hero {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                min-height: 100vh;
+                padding: 40px 20px;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .card {
+                background: #fff;
+                border-radius: 10px;
+                padding: 30px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                margin-top: 20px;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+        </style>
     </head>
     <body>
-        <% if (user) { %>
-        <h1>Hi <%= user.name %> !</h1>
-        <p>You are now authenticated and only you can see your stuff here!</p>
-        <a href="/logout">Log out here!</a>
-        <% } else { %>
-        <p>NOT AUTHENTICATED BITCH</p>
-        <% } %>
+        <div class="dashboard-hero">
+            <% if (user) { %> <%- include("partials/loggedInHeader") %>
+            <div class="container">
+                <div class="card">
+                    <p>
+                        You are now authenticated and only you can see your
+                        stuff here!
+                    </p>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="container">
+                <div class="card">
+                    <p>NOT AUTHENTICATED BITCH</p>
+                </div>
+            </div>
+            <% } %>
+        </div>
     </body>
 </html>

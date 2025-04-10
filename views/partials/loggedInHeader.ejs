@@ -1,0 +1,75 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    header {
+        padding: 15px 0;
+    }
+
+    .header-card {
+        background: #ffffff;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .greeting {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #764ba2;
+    }
+
+    nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+    }
+    nav a {
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #764ba2;
+        transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+        color: #667eea;
+    }
+    .search-form input {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+        .header-card {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+
+<header>
+    <div class="header-card">
+        <span class="greeting">Welcome, <%= user.name %></span>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/dashboard/folder/create">New Folder</a></li>
+                <li><a href="/dashboard/account">My Account</a></li>
+                <li><a href="/auth/logout">Log out</a></li>
+            </ul>
+        </nav>
+        <form class="search-form" action="/dashboard/search" method="GET">
+            <input type="text" name="q" placeholder="Search..." />
+        </form>
+    </div>
+</header>
