@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Register Fayl</title>
+        <title>Log in Fayl</title>
         <style>
             * {
                 margin: 0;
@@ -69,14 +69,14 @@
                 text-align: center;
                 margin-top: 1rem;
             }
-            .login-link {
-                margin-top: 15px;
+            .register-link {
                 display: inline-block;
                 color: #764ba2;
                 text-decoration: none;
                 font-weight: bold;
+                margin-top: 1rem;
             }
-            .login-link:hover {
+            .register-link:hover {
                 color: #667eea;
             }
         </style>
@@ -84,12 +84,8 @@
     <body>
         <div class="hero">
             <div class="card">
-                <h1>Register Fayl</h1>
-                <form action="/register" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" name="name" id="name" required />
-                    </div>
+                <h1>Log in to Fayl</h1>
+                <form action="/login" method="POST">
                     <div class="form-group">
                         <label for="username">Username:</label>
                         <input
@@ -108,11 +104,11 @@
                             required
                         />
                     </div>
-                    <button type="submit">Register</button>
+                    <button type="submit">Log in</button>
                 </form>
                 <div class="text-center">
-                    <p>Already have an account?</p>
-                    <a href="/login" class="login-link">Log in here!</a>
+                    <p>Don't have an account?</p>
+                    <a href="/register" class="register-link">Register here!</a>
                 </div>
             </div>
         </div>

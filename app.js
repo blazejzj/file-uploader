@@ -10,6 +10,8 @@ const app = express();
 // routers
 const indexRouter = require("./routes/indexRouter");
 const registerRouter = require("./routes/registerRouter");
+const loginRouter = require("./routes/loginRouter");
+
 // views
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -43,6 +45,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/", indexRouter);
 app.use("/register", registerRouter);
+app.use("/login", loginRouter);
 
 // start
 const PORT = 3000;
