@@ -14,4 +14,13 @@ dashboardRouter.get(
     dashboardController.getUserPasswordChange
 );
 
+dashboardRouter.post(
+    "/account/update/name",
+    dashboardController.changeUserName
+);
+dashboardRouter.post(
+    "/account/update/password",
+    dashboardController.changeUserPw
+);
+
 module.exports = dashboardRouter;

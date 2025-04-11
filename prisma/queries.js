@@ -103,6 +103,20 @@ async function updateFolderName(folderId, newName) {
     });
 }
 
+async function updateUserName(userId, newName) {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { name: newName },
+    });
+}
+
+async function updateUserPassword(userId, newHashedPassword) {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { password: newHashedPassword },
+    });
+}
+
 module.exports = {
     getUserById,
     getUserByUsername,
@@ -115,4 +129,6 @@ module.exports = {
     getFolderById,
     isUserFolderOwner,
     updateFolderName,
+    updateUserName,
+    updateUserPassword,
 };
