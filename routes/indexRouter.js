@@ -2,7 +2,10 @@ const { Router } = require("express");
 const indexRouter = Router();
 
 indexRouter.get("/", (req, res) => {
-    res.render("index");
+    if (!req.user) {
+        return res.render("index");
+    }
+    return res.redirect("/dashboard");
 });
 
 module.exports = indexRouter;

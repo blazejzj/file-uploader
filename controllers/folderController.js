@@ -39,3 +39,21 @@ exports.foldersShow = async (req, res) => {
     }
     return res.status(401).redirect("/");
 };
+
+exports.folderDelete = async (req, res) => {
+    if (!req.user) {
+        return res.status(401).redirect("/");
+    }
+
+    const folderId = Number(req.params.id);
+
+    const userOwns = await db.userOwnsFolder(req.user.id, folderId);
+
+    if (!userOwns) {
+        return res.status(401).redirect("/");
+    }
+
+    await db.deleteFolder(folderId);
+
+    res.redirect("/dashboard");
+};

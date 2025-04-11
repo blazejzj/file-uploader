@@ -54,6 +54,28 @@ async function getAllUserFolders(userId) {
     });
 }
 
+async function userOwnsFolder(userId, folderId) {
+    const folder = await prisma.folder.findUnique({
+        where: {
+            id: folderId,
+        },
+    });
+
+    if (!folder) {
+        return false;
+    }
+
+    return folder.userId === userId;
+}
+
+async function deleteFolder(folderId) {
+    return await prisma.folder.delete({
+        where: {
+            id: folderId,
+        },
+    });
+}
+
 module.exports = {
     getUserById,
     getUserByUsername,
@@ -61,4 +83,6 @@ module.exports = {
     addNewUser,
     createNewFolder,
     getAllUserFolders,
+    userOwnsFolder,
+    deleteFolder,
 };

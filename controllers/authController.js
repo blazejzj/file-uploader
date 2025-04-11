@@ -12,6 +12,10 @@ exports.showLoginForm = (req, res) => {
 exports.login = [
     validateUserLogin,
     (req, res, next) => {
+        if (req.user) {
+            return res.redirect("/dashboard");
+        }
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((err) => err.msg);
@@ -35,6 +39,10 @@ exports.showRegisterForm = (req, res) => {
 exports.register = [
     validateNewUser,
     async (req, res) => {
+        if (req.user) {
+            return res.redirect("/dashboard");
+        }
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((err) => err.msg);
