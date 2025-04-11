@@ -7,3 +7,24 @@ exports.getUserDashboard = async (req, res) => {
     }
     return res.status(401).redirect("/");
 };
+
+exports.getUserProfile = (req, res) => {
+    if (!req.user) {
+        return res.status(401).redirect("/");
+    }
+    res.render("account");
+};
+
+exports.getUserPasswordChange = (req, res) => {
+    if (!req.user) {
+        return res.status(401).redirect("/");
+    }
+    res.render("updatePassword");
+};
+
+exports.getUserNameChange = (req, res) => {
+    if (!req.user) {
+        return res.status(401).redirect("/");
+    }
+    res.render("updateName");
+};
