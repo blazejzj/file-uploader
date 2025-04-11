@@ -6,6 +6,9 @@ const db = require("../prisma/queries");
 const passport = require("passport");
 
 exports.showLoginForm = (req, res) => {
+    if (req.user) {
+        return res.redirect("/dashboard");
+    }
     res.render("login");
 };
 
@@ -33,6 +36,9 @@ exports.login = [
 ];
 
 exports.showRegisterForm = (req, res) => {
+    if (req.user) {
+        return res.redirect("/dashboard");
+    }
     res.render("register");
 };
 
@@ -55,7 +61,7 @@ exports.register = [
         const { name, username, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.addNewUser(name, username, hashedPassword);
-        res.redirect("/login");
+        res.redirect("/auth/login");
     },
 ];
 
