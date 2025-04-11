@@ -1,4 +1,6 @@
 const db = require("../prisma/queries");
+const { validationResult } = require("express-validator");
+const { validateNewFolder } = require("../validators/folderValidator");
 
 exports.folderCreateGet = (req, res) => {
     if (!req.user) {
@@ -8,15 +10,24 @@ exports.folderCreateGet = (req, res) => {
     res.render("folderCreate");
 };
 
-exports.folderCreatePost = async (req, res) => {
-    if (!req.user) {
-        return res.status(400).redirect("/");
-    }
+exports.folderCreatePost = [
+    validateNewFolder,
+    async (req, res) => {
+        if (!req.user) {
+            return res.status(400).redirect("/");
+        }
 
-    const folderName = req.body.foldername;
-    const userId = req.user.id;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const formattedErrors = errors.array().map((error) => error.msg);
+            res.status(400).render("folderCreate", { errors: formattedErrors });
+        }
 
-    await db.createNewFolder(folderName, userId);
+        const folderName = req.body.foldername;
+        const userId = req.user.id;
 
-    res.redirect("/dashboard");
-};
+        await db.createNewFolder(folderName, userId);
+
+        res.redirect("/dashboard");
+    },
+];

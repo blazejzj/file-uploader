@@ -55,7 +55,8 @@
                 width: 100%;
             }
 
-            button {
+            button,
+            a {
                 background: #764ba2;
                 border: none;
                 border-radius: 5px;
@@ -67,15 +68,49 @@
                 transition: background 0.3s, transform 0.3s;
             }
 
-            button:hover {
+            .margTop {
+                margin-top: 1rem;
+                place-self: center;
+                width: 100%;
+            }
+
+            button:hover,
+            a:hover {
                 background: #667eea;
                 transform: translateY(-2px);
             }
+
+            a {
+                width: 100%;
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .error-container {
+                background-color: #ffe0e0;
+                border: 1px solid #ff6b6b;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+            }
+            .error-message {
+                color: #d8000c;
+                font-size: 0.9rem;
+                margin: 5px 0;
+            }
         </style>
     </head>
-    <body>
+    <body class="folderContainer">
         <div class="card">
             <h1>Create New Folder</h1>
+            <% if (errors && errors.length) { %>
+            <div class="error-container">
+                <% errors.forEach((error) => { %>
+                <p class="error-message"><%= error %></p>
+                <% }) %>
+            </div>
+            <% } %>
             <form action="/dashboard/folder/create" method="POST">
                 <label for="foldername">Folder name:</label>
                 <input
@@ -87,6 +122,7 @@
                 />
                 <button type="submit">Create New Folder</button>
             </form>
+            <a class="margTop" href="/dashboard">Go back</a>
         </div>
     </body>
 </html>
