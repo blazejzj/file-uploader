@@ -1,6 +1,9 @@
-exports.getUserDashboard = (req, res) => {
+const db = require("../prisma/queries");
+
+exports.getUserDashboard = async (req, res) => {
     if (req.user) {
-        return res.render("dashboard");
+        const folders = await db.getAllUserFolders(req.user.id);
+        return res.render("dashboard", { folders });
     }
     return res.status(401).redirect("/");
 };

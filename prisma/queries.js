@@ -46,10 +46,19 @@ async function createNewFolder(folderName, userId) {
     });
 }
 
+async function getAllUserFolders(userId) {
+    return await prisma.folder.findMany({
+        where: {
+            userId: userId,
+        },
+    });
+}
+
 module.exports = {
     getUserById,
     getUserByUsername,
     usernameExists,
     addNewUser,
     createNewFolder,
+    getAllUserFolders,
 };
