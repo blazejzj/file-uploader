@@ -20,7 +20,9 @@ exports.folderCreatePost = [
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((error) => error.msg);
-            res.status(400).render("folderCreate", { errors: formattedErrors });
+            return res
+                .status(400)
+                .render("folderCreate", { errors: formattedErrors });
         }
 
         const folderName = req.body.foldername;
@@ -57,3 +59,50 @@ exports.folderDelete = async (req, res) => {
 
     res.redirect("/dashboard");
 };
+
+exports.folderUpdateGet = async (req, res) => {
+    if (!req.user) {
+        return res.status(401).redirect("/");
+    }
+    const folderId = Number(req.params.id);
+    const userId = Number(req.user.id);
+
+    const userOwnsFolder = await db.isUserFolderOwner(userId, folderId);
+    if (!userOwnsFolder) {
+        return res.status(401).redirect("/dashboard");
+    }
+
+    const folder = await db.getFolderById(folderId);
+
+    return res.render("folderUpdate", { folder });
+};
+
+exports.folderUpdatePost = [
+    validateNewFolder,
+    async (req, res) => {
+        if (!req.user) {
+            return res.status(401).redirect("/");
+        }
+
+        // check if updated folder belongs to user
+        const folderId = Number(req.params.id);
+        const userId = Number(req.user.id);
+        let userOwnsFolder = await db.isUserFolderOwner(userId, folderId);
+        if (!userOwnsFolder) {
+            return res.status(401).redirect("/dashboard");
+        }
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const formattedErrors = errors.array().map((error) => error.msg);
+            return res
+                .status(400)
+                .render("folderCreate", { errors: formattedErrors });
+        }
+
+        // update folder
+        const newName = req.body.newFoldername;
+        await db.updateFolderName(folderId, newName);
+        res.redirect("/dashboard");
+    },
+];

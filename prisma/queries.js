@@ -76,6 +76,33 @@ async function deleteFolder(folderId) {
     });
 }
 
+async function getFolderById(id) {
+    return await prisma.folder.findUnique({
+        where: {
+            id,
+        },
+    });
+}
+
+async function isUserFolderOwner(userId, folderId) {
+    const folder = await getFolderById(folderId);
+    if (!folder || folder.userId !== userId) {
+        return false;
+    }
+    return true;
+}
+
+async function updateFolderName(folderId, newName) {
+    return await prisma.folder.update({
+        where: {
+            id: folderId,
+        },
+        data: {
+            name: newName,
+        },
+    });
+}
+
 module.exports = {
     getUserById,
     getUserByUsername,
@@ -85,4 +112,7 @@ module.exports = {
     getAllUserFolders,
     userOwnsFolder,
     deleteFolder,
+    getFolderById,
+    isUserFolderOwner,
+    updateFolderName,
 };

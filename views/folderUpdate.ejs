@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Create New Folder</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: #333;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .card {
+                background: #fff;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 400px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #764ba2;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            label {
+                font-size: 1rem;
+                color: #764ba2;
+                font-weight: 600;
+            }
+
+            input[type="text"] {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 1rem;
+                width: 100%;
+            }
+
+            button,
+            a {
+                background: #764ba2;
+                border: none;
+                border-radius: 5px;
+                padding: 12px;
+                color: #fff;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.3s, transform 0.3s;
+            }
+
+            .margTop {
+                margin-top: 1rem;
+                place-self: center;
+                width: 100%;
+            }
+
+            button:hover,
+            a:hover {
+                background: #667eea;
+                transform: translateY(-2px);
+            }
+
+            a {
+                width: 100%;
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .error-container {
+                background-color: #ffe0e0;
+                border: 1px solid #ff6b6b;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+            }
+            .error-message {
+                color: #d8000c;
+                font-size: 0.9rem;
+                margin: 5px 0;
+            }
+        </style>
+    </head>
+    <body class="folderContainer">
+        <div class="card">
+            <h1>Update folder</h1>
+            <% if (errors && errors.length) { %>
+            <div class="error-container">
+                <% errors.forEach((error) => { %>
+                <p class="error-message"><%= error %></p>
+                <% }) %>
+            </div>
+            <% } %>
+            <form
+                action="/dashboard/folder/update/<%= folder.id %>"
+                method="POST"
+            >
+                <label for="newFoldername">Folder new name:</label>
+                <input
+                    type="text"
+                    name="newFoldername"
+                    id="newFoldername"
+                    placeholder="Enter new folder name"
+                    required
+                />
+                <button type="submit">Update folder</button>
+            </form>
+            <a class="margTop" href="/dashboard">Go back</a>
+        </div>
+    </body>
+</html>
