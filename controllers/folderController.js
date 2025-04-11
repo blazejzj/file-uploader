@@ -31,3 +31,10 @@ exports.folderCreatePost = [
         res.redirect("/dashboard");
     },
 ];
+
+exports.foldersShow = (req, res) => {
+    if (req.user) {
+        return res.redirect("/dashboard");
+    }
+    return res.status(401).redirect("/");
+};

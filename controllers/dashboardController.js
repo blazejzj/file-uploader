@@ -1,3 +1,6 @@
 exports.getUserDashboard = (req, res) => {
-    res.render("dashboard");
+    if (req.user) {
+        return res.render("dashboard");
+    }
+    return res.status(401).redirect("/");
 };

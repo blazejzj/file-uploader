@@ -2,6 +2,8 @@ const { Router } = require("express");
 const folderRouter = Router();
 const folderController = require("../controllers/folderController");
 
+folderRouter.get("/", folderController.foldersShow);
+
 folderRouter.get("/create", folderController.folderCreateGet);
 folderRouter.post("/create", folderController.folderCreatePost);
 
