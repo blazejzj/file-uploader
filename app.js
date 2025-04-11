@@ -13,6 +13,7 @@ const app = express();
 const indexRouter = require("./routes/indexRouter");
 const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
+const folderRouter = require("./routes/folderRouter");
 
 // views
 app.set("views", path.join(__dirname, "views"));
@@ -55,6 +56,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/dashboard", isAuthenticated, userRouter);
+app.use("/dashboard/folder", isAuthenticated, folderRouter);
 
 // start
 const PORT = 3000;

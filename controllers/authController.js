@@ -23,7 +23,7 @@ exports.login = [
 
         passport.authenticate("local", {
             successRedirect: `/dashboard`,
-            failureRedirect: `/login`,
+            failureRedirect: `/auth/login`,
         })(req, res, next);
     },
 ];

@@ -37,9 +37,19 @@ async function addNewUser(name, username, password) {
     });
 }
 
+async function createNewFolder(folderName, userId) {
+    await prisma.folder.create({
+        data: {
+            name: folderName,
+            userId: userId,
+        },
+    });
+}
+
 module.exports = {
     getUserById,
     getUserByUsername,
     usernameExists,
     addNewUser,
+    createNewFolder,
 };

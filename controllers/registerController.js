@@ -22,6 +22,6 @@ exports.registerUserPost = [
         const { name, username, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.addNewUser(name, username, hashedPassword);
-        res.redirect("/login");
+        res.redirect("/auth/login");
     },
 ];
