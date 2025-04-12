@@ -2,21 +2,17 @@ const db = require("../prisma/queries");
 const { validationResult } = require("express-validator");
 const { validateNewFolder } = require("../validators/folderValidator");
 
-exports.folderCreateGet = (req, res) => {
-    if (!req.user) {
-        return res.status(400).redirect("/");
-    }
+async function ownsFolder(userId, folderId) {
+    return await db.userOwnsFolder(userId, folderId);
+}
 
+exports.folderCreateGet = (req, res) => {
     res.render("folderCreate");
 };
 
 exports.folderCreatePost = [
     validateNewFolder,
     async (req, res) => {
-        if (!req.user) {
-            return res.status(400).redirect("/");
-        }
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((error) => error.msg);
@@ -35,60 +31,46 @@ exports.folderCreatePost = [
 ];
 
 exports.foldersShow = async (req, res) => {
-    if (req.user) {
-        const folders = await db.getAllUserFolders(req.user.id);
-        return res.render("dashboard", { folders });
-    }
-    return res.status(401).redirect("/");
+    const folders = await db.getAllUserFolders(req.user.id);
+    return res.render("dashboard", { folders });
 };
 
 exports.folderDelete = async (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
-
     const folderId = Number(req.params.id);
 
-    const userOwns = await db.userOwnsFolder(req.user.id, folderId);
-
-    if (!userOwns) {
+    if (!(await ownsFolder(req.user.id, folderId))) {
         return res.status(401).redirect("/");
     }
 
     await db.deleteFolder(folderId);
-
     res.redirect("/dashboard");
 };
 
 exports.folderUpdateGet = async (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
     const folderId = Number(req.params.id);
-    const userId = Number(req.user.id);
 
-    const userOwnsFolder = await db.isUserFolderOwner(userId, folderId);
-    if (!userOwnsFolder) {
+    if (!(await ownsFolder(req.user.id, folderId))) {
         return res.status(401).redirect("/dashboard");
     }
 
     const folder = await db.getFolderById(folderId);
-
-    return res.render("folderUpdate", { folder });
+    res.render("folderUpdate", { folder });
 };
+
+async function ownsFolder(userId, folderId) {
+    let userOwnsFolder = await db.isUserFolderOwner(userId, folderId);
+    if (!userOwnsFolder) {
+        return false;
+    }
+    return true;
+}
 
 exports.folderUpdatePost = [
     validateNewFolder,
     async (req, res) => {
-        if (!req.user) {
-            return res.status(401).redirect("/");
-        }
-
-        // check if updated folder belongs to user
         const folderId = Number(req.params.id);
-        const userId = Number(req.user.id);
-        let userOwnsFolder = await db.isUserFolderOwner(userId, folderId);
-        if (!userOwnsFolder) {
+
+        if (!(await ownsFolder(req.user.id, folderId))) {
             return res.status(401).redirect("/dashboard");
         }
 
@@ -97,12 +79,24 @@ exports.folderUpdatePost = [
             const formattedErrors = errors.array().map((error) => error.msg);
             return res
                 .status(400)
-                .render("folderCreate", { errors: formattedErrors });
+                .render("folderUpdate", { errors: formattedErrors });
         }
 
-        // update folder
         const newName = req.body.newFoldername;
         await db.updateFolderName(folderId, newName);
         res.redirect("/dashboard");
     },
 ];
+
+exports.folderGet = async (req, res) => {
+    const folderId = Number(req.params.id);
+
+    if (!(await ownsFolder(req.user.id, folderId))) {
+        return res.status(401).redirect("/dashboard");
+    }
+
+    const folder = await db.getFolderById(folderId);
+    const files = await db.getFilesByFolderId(folderId);
+
+    res.render("folder", { folder, files });
+};

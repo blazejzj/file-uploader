@@ -11,6 +11,6 @@ folderRouter.post("/delete/:id", folderController.folderDelete);
 folderRouter.get("/update/:id", folderController.folderUpdateGet);
 folderRouter.post("/update/:id", folderController.folderUpdatePost);
 
-// folderRouter.get("/:id", folderController.folderGet);
+folderRouter.get("/:id", folderController.folderGet);
 
 module.exports = folderRouter;
