@@ -6,19 +6,12 @@ const db = require("../prisma/queries");
 const passport = require("passport");
 
 exports.showLoginForm = (req, res) => {
-    if (req.user) {
-        return res.redirect("/dashboard");
-    }
     res.render("login");
 };
 
 exports.login = [
     validateUserLogin,
     (req, res, next) => {
-        if (req.user) {
-            return res.redirect("/dashboard");
-        }
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((err) => err.msg);
@@ -36,19 +29,12 @@ exports.login = [
 ];
 
 exports.showRegisterForm = (req, res) => {
-    if (req.user) {
-        return res.redirect("/dashboard");
-    }
     res.render("register");
 };
 
 exports.register = [
     validateNewUser,
     async (req, res) => {
-        if (req.user) {
-            return res.redirect("/dashboard");
-        }
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             const formattedErrors = errors.array().map((err) => err.msg);

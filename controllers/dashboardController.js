@@ -7,10 +7,6 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 
 exports.getUserDashboard = async (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
-
     const folders = await db.getAllUserFolders(req.user.id);
 
     return res.render("dashboard", {
@@ -20,74 +16,60 @@ exports.getUserDashboard = async (req, res) => {
 };
 
 exports.getUserProfile = (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
-
     return res.render("account", {
         user: req.user,
     });
 };
 
 exports.getUserPasswordChange = (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
-
     return res.render("updatePassword", {
         user: req.user,
     });
 };
 
 exports.getUserNameChange = (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
-
     return res.render("updateName", {
         user: req.user,
     });
 };
 
-exports.changeUserName = async (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
+exports.changeUserName = [
+    validateNewName,
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const formattedErrors = errors.array().map((err) => err.msg);
+            return res.render("updateName", {
+                user: req.user,
+                errors: formattedErrors,
+            });
+        }
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const formattedErrors = errors.array().map((err) => err.msg);
-        return res.render("updateName", {
-            user: req.user,
-            errors: formattedErrors,
-        });
-    }
+        const newName = req.body.newName;
 
-    const newName = req.body.newName;
+        await db.updateUserName(req.user.id, newName);
 
-    await db.updateUserName(req.user.id, newName);
+        res.redirect("/dashboard/account");
+    },
+];
 
-    res.redirect("/dashboard/account");
-};
+exports.changeUserPw = [
+    validateNewPassword,
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const formattedErrors = errors.array().map((err) => err.msg);
+            return res.render("updatePassword", {
+                user: req.user,
+                errors: formattedErrors,
+            });
+        }
 
-exports.changeUserPw = async (req, res) => {
-    if (!req.user) {
-        return res.status(401).redirect("/");
-    }
+        const newPassword = req.body.newPassword;
+        const hashedPw = await bcrypt.hash(newPassword, 10);
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const formattedErrors = errors.array().map((err) => err.msg);
-        return res.render("updatePassword", {
-            user: req.user,
-            errors: formattedErrors,
-        });
-    }
+        await db.updateUserPassword(req.user.id, hashedPw);
 
-    const newPassword = req.body.newPassword;
-    const hashedPw = await bcrypt.hash(newPassword, 10);
-
-    await db.updateUserPassword(req.user.id, hashedPw);
-
-    res.redirect("/dashboard/account");
-};
+        res.redirect("/dashboard/account");
+    },
+];
