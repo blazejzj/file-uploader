@@ -91,12 +91,15 @@ exports.folderUpdatePost = [
 exports.folderGet = async (req, res) => {
     const folderId = Number(req.params.id);
 
-    if (!(await ownsFolder(req.user.id, folderId))) {
+    if (!(await db.userOwnsFolder(req.user.id, folderId))) {
         return res.status(401).redirect("/dashboard");
     }
 
     const folder = await db.getFolderById(folderId);
     const files = await db.getFilesByFolderId(folderId);
 
-    res.render("folder", { folder, files });
+    res.render("folder", {
+        folder,
+        files,
+    });
 };

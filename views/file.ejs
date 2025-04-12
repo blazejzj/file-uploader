@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Filvisning</title>
+    </head>
+    <body>
+        <h1>Fil: <%= file.name %></h1>
+        <p>Størrelse: <%= file.size %> bytes</p>
+        <p>Type: <%= file.mimetype %></p>
+        <p>
+            Sti: <a href="<%= file.path %>" target="_blank"><%= file.path %></a>
+        </p>
+    </body>
+</html>

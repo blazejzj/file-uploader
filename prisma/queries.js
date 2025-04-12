@@ -116,6 +116,29 @@ async function updateUserPassword(userId, newHashedPassword) {
         data: { password: newHashedPassword },
     });
 }
+async function getFileById(id) {
+    return prisma.file.findUnique({
+        where: { id },
+    });
+}
+
+async function getFilesByFolderId(folderId) {
+    return prisma.file.findMany({
+        where: { folderId },
+    });
+}
+
+async function createNewFile(data) {
+    return prisma.file.create({
+        data,
+    });
+}
+
+async function deleteFile(id) {
+    return prisma.file.delete({
+        where: { id },
+    });
+}
 
 module.exports = {
     getUserById,
@@ -131,4 +154,8 @@ module.exports = {
     updateFolderName,
     updateUserName,
     updateUserPassword,
+    createNewFile,
+    getFileById,
+    deleteFile,
+    getFilesByFolderId,
 };

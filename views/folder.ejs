@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Folder - <%= folder.name %></title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                background: #fafafa;
+                color: #333;
+                line-height: 1.6;
+            }
+            .hero {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                min-height: 100vh;
+                padding: 40px 20px;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .card {
+                background: #fff;
+                border-radius: 10px;
+                padding: 30px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #764ba2;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #764ba2;
+                margin-top: 20px;
+                margin-bottom: 15px;
+            }
+            a {
+                text-decoration: none;
+                font-weight: 600;
+                color: #764ba2;
+                transition: color 0.3s;
+                margin-right: 15px;
+            }
+            a:hover {
+                color: #667eea;
+            }
+            ul {
+                list-style: none;
+                padding-left: 0;
+            }
+            li {
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+            }
+            li:last-child {
+                border-bottom: none;
+            }
+            .file-link {
+                font-size: 1.2rem;
+            }
+            form.inline {
+                display: inline;
+            }
+            button {
+                background: #764ba2;
+                border: none;
+                border-radius: 4px;
+                padding: 6px 10px;
+                color: #fff;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: background 0.3s, transform 0.3s;
+                margin-left: 10px;
+            }
+            button:hover {
+                background: #667eea;
+                transform: translateY(-2px);
+            }
+            .actions {
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hero">
+            <%- include("partials/loggedInHeader") %>
+            <div class="container">
+                <div class="card">
+                    <h1>Folder: <%= folder.name %></h1>
+                    <div class="actions">
+                        <a href="/dashboard">← Back to dashboard</a>
+                        <a href="/dashboard/folder/<%= folder.id %>/file/create"
+                            >Add a new file</a
+                        >
+                    </div>
+                    <% if (files.length > 0) { %>
+                    <h2>Files in this folder:</h2>
+                    <ul>
+                        <% files.forEach(file => { %>
+                        <li>
+                            <a
+                                class="file-link"
+                                href="/dashboard/file/<%= file.id %>"
+                                ><%= file.name %></a
+                            >
+                            <form
+                                class="inline"
+                                action="/dashboard/file/<%= file.id %>/delete"
+                                method="POST"
+                            >
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
+                        <% }) %>
+                    </ul>
+                    <% } else { %>
+                    <p>No files in this folder yet.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
